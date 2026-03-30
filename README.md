@@ -158,8 +158,8 @@ uplift-modelling/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/uplift-modelling
-cd uplift-modelling
+git clone https://github.com/MYOUSSF/uplift_project
+cd uplift_project
 
 # 2. Create environment
 python -m venv venv
@@ -288,5 +288,3 @@ The meta-learners go further — they estimate the **CATE** (Conditional ATE) at
 MIT — free to use, adapt, and share with attribution.
 
 ---
-
-*Built as part of a causal data science portfolio. See also: P1 (PSM), P2 (DiD), P4 (IV).*
