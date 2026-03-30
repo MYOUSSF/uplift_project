@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Data (too large for git — download via data_loader.py)
+data/hillstrom_raw.csv
+data/hillstrom_processed.csv
+
+# Outputs (reproducible — regenerate with main.py)
+outputs/figures/*.png
+outputs/model_comparison.csv
+outputs/budget_sweep.csv
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docs build artefact (keep the .js, not the generated .docx in repo)
+docs/project_documentation.docx
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
