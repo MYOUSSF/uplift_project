@@ -30,12 +30,17 @@ from evaluation import qini_curve, cumulative_gain_curve, random_baseline_qini
 # ── Style ─────────────────────────────────────────────────────────────────────
 
 PALETTE = {
-    "S-Learner": "#5C6BC0",
-    "T-Learner": "#26A69A",
-    "X-Learner": "#EF6C00",
-    "Random":    "#90A4AE",
-    "control":   "#B0BEC5",
-    "treated":   "#5C6BC0",
+    # Baselines — visually distant from each other and from X variants
+    "S-Learner":            "#5C6BC0",  # indigo
+    "T-Learner":            "#26A69A",  # teal
+    # X-Learner family — orange/red hue range, clearly grouped but distinct
+    "X-Learner":            "#EF6C00",  # dark orange  (no calibration)
+    "X-Learner [platt]":    "#E53935",  # red          (Platt scaling)
+    "X-Learner [isotonic]": "#AD1457",  # deep pink    (isotonic)
+    # Misc
+    "Random":               "#90A4AE",  # grey
+    "control":              "#B0BEC5",
+    "treated":              "#5C6BC0",
 }
 
 FIG_DIR = os.path.join(os.path.dirname(__file__), "..", "outputs", "figures")
@@ -44,7 +49,7 @@ def _savefig(fig, name: str, dpi: int = 150):
     os.makedirs(FIG_DIR, exist_ok=True)
     path = os.path.join(FIG_DIR, name)
     fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor=fig.get_facecolor())
-    print(f"[viz] Saved → {path}")
+    print(f"[viz] Saved → outputs/figures/{name}")
     return path
 
 
@@ -79,6 +84,7 @@ def plot_eda_overview(df: pd.DataFrame) -> str:
     bars = ax1.bar(arms.index, arms.values, color=colors, edgecolor="white", width=0.6)
     ax1.set_title("Treatment arm sizes")
     ax1.set_ylabel("Customers")
+    ax1.set_xticks(range(len(arms.index)))
     ax1.set_xticklabels(arms.index, rotation=12, ha="right")
     for bar, v in zip(bars, arms.values):
         ax1.text(bar.get_x() + bar.get_width()/2, v + 200,
@@ -91,6 +97,7 @@ def plot_eda_overview(df: pd.DataFrame) -> str:
     bars2 = ax2.bar(conv.index, conv.values, color=colors, edgecolor="white", width=0.6)
     ax2.set_title("Conversion rate by arm")
     ax2.set_ylabel("Conversion rate (%)")
+    ax2.set_xticks(range(len(conv.index)))
     ax2.set_xticklabels(conv.index, rotation=12, ha="right")
     for bar, v in zip(bars2, conv.values):
         ax2.text(bar.get_x() + bar.get_width()/2, v + 0.05,
@@ -123,6 +130,7 @@ def plot_eda_overview(df: pd.DataFrame) -> str:
     bars5 = ax5.bar(visit.index, visit.values, color=colors, edgecolor="white", width=0.6)
     ax5.set_title("Website visit rate by arm")
     ax5.set_ylabel("Visit rate (%)")
+    ax5.set_xticks(range(len(visit.index)))
     ax5.set_xticklabels(visit.index, rotation=12, ha="right")
     for bar, v in zip(bars5, visit.values):
         ax5.text(bar.get_x() + bar.get_width()/2, v + 0.1,
@@ -308,7 +316,7 @@ def plot_cate_heatmap(df: pd.DataFrame, cate: np.ndarray,
                                 bins=[0, 3, 7, 12],
                                 labels=["1-3 mo", "4-7 mo", "8-12 mo"])
 
-    pivot = tmp.groupby(["recency_bin", "history_segment"])["cate"].mean().unstack()
+    pivot = tmp.groupby(["recency_bin", "history_segment"], observed=False)["cate"].mean().unstack()
 
     fig, ax = plt.subplots(figsize=(11, 4), facecolor="#FAFAFA")
     import matplotlib.cm as cm

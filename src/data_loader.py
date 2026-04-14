@@ -39,7 +39,7 @@ def download_dataset(force: bool = False) -> pd.DataFrame:
     """Download Hillstrom dataset; use cached copy if available."""
     raw_path = os.path.abspath(RAW_PATH)
     if os.path.exists(raw_path) and not force:
-        print(f"[data_loader] Loading cached dataset from {raw_path}")
+        print("[data_loader] Loading cached dataset from data/")
         return pd.read_csv(raw_path)
 
     print("[data_loader] Downloading Hillstrom dataset …")
@@ -53,7 +53,7 @@ def download_dataset(force: bool = False) -> pd.DataFrame:
 
     os.makedirs(os.path.dirname(raw_path), exist_ok=True)
     df.to_csv(raw_path, index=False)
-    print(f"[data_loader] Saved to {raw_path}")
+    print("[data_loader] Loading cached dataset from data/")
     return df
 
 
@@ -101,7 +101,7 @@ def preprocess(df: pd.DataFrame) -> pd.DataFrame:
     proc_path = os.path.abspath(PROCESSED_PATH)
     os.makedirs(os.path.dirname(proc_path), exist_ok=True)
     df.to_csv(proc_path, index=False)
-    print(f"[data_loader] Processed dataset saved to {proc_path}")
+    print("[data_loader] Processed dataset saved to data/")
     return df
 
 

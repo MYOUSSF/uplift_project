@@ -38,7 +38,7 @@ outputs/budget_sweep.csv
 .DS_Store
 Thumbs.db
 
-# Docs build artefact (keep the .js, not the generated .docx in repo)
+# Docs 
 docs/project_documentation.docx
 
 # pytest
